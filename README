@@ -1,0 +1,5 @@
+This module is compatible with Views 3.x branch only.  After you enable the module you will be able to enable the infinite scroll pager from the views pager style options.
+
+Known Limitations:
+- Assumes selector '.views-content .views-row' contains the content that is to be fetched
+- Only works with unformatted view style currently 

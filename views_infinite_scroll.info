@@ -1,0 +1,6 @@
+name = Views Infinite Scroll
+description = A Views pager plugin to allow you to use the Inifinite Scroll Jquery Plugin
+package = Views
+core = 6.x
+dependencies[] = views
+
