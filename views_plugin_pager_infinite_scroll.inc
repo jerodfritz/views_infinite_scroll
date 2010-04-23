@@ -44,7 +44,7 @@ class views_plugin_pager_infinite_scroll extends views_plugin_pager_full {
     }
         
     $pager_theme = views_theme_functions('views_infinite_scroll_pager', $this->view, $this->display);
-    return theme($pager_theme, $input, $this->options['items_per_page'], $this->options['id'], $this->options['automatic'], $this->options['loadingtext'], $this->options['donetext'], $target, $itemselector);
+    return theme($pager_theme, $input, $this->options['items_per_page'], $this->options['id'], $this->options['automatic'], $this->options['loadingtext'], $this->options['donetext'], $this->options['moretext'], $target, $itemselector);
   }
 
   /**
@@ -57,7 +57,7 @@ class views_plugin_pager_infinite_scroll extends views_plugin_pager_full {
     $options['automatic'] = array('default' => false);
     $options['loadingtext'] = array('default' => t('Loading next page...')); 
     $options['donetext'] = array('default' => t('You\'ve reached the last page')); 
-
+    $options['moretext'] = array('default' => t('Show More')); 
     return $options;
   }
 
@@ -102,6 +102,15 @@ class views_plugin_pager_infinite_scroll extends views_plugin_pager_full {
       '#description' => t('The text presented to the user when there are no more pages to load'),
 
     );    
+    $form['moretext'] = array(
+      '#type' => 'textfield',
+      '#title' => t('More Text'),
+      '#size' => 255,
+      '#maxlength' => 255,
+      '#default_value' => $this->options['moretext'],
+      '#description' => t('If you have selected Manual operation this is the link the user will click to go to the next page'),
+
+    );
   }
 
   function options_validate(&$form, &$form_state) {

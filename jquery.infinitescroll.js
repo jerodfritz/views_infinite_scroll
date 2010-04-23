@@ -264,9 +264,10 @@
                           extraScrollPx   : 150,
                           itemSelector    : "div.post",
                           animate         : false,
-                          localMode      : false,
+                          localMode       : false,
                           bufferPx        : 40,
-                          errorCallback   : function(){}
+                          errorCallback   : function(){},
+                          automatic       : false,
                         }, 
         loadingImg    : undefined,
         loadingMsg    : undefined,
