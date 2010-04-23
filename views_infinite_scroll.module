@@ -17,8 +17,17 @@ function views_infinite_scroll_views_api() {
  */
 function views_infinite_scroll_theme() {
   $hooks['views_infinite_scroll_pager'] = array(
-    'arguments' => array('tags' => array(), 'limit' => 10, 'element' => 0, 'parameters' => array()),
-    'pattern' => 'views_infinite_scroll_pager__',
+    'arguments' => array(
+      'tags' => array(), 
+      'limit' => 10, 
+      'element' => 0, 
+      'automatic' => false, 
+      'loadingtext' => t('Loading next page...'), 
+      'donetext' => t('You\'ve reached the last page'),
+      'target' => 'div.view-content',
+      'itemselector' => 'div.view-content div.views-row',
+     ),
+     'pattern' => 'views_infinite_scroll_pager__',
   );
   return $hooks;
 }
@@ -26,26 +35,25 @@ function views_infinite_scroll_theme() {
 
 
 
-function theme_views_infinite_scroll_pager($tags = array(), $limit = 10, $element = 0, $parameters = array(), $quantity = 9) {
+function theme_views_infinite_scroll_pager($tags = array(), $limit = 10, $element = 0, $automatic = true, $loadingtext = '', $donetext = '', $target = 'div.view-content', $itemselector = 'div.view-content div.views-row') {
   global $pager_page_array, $pager_total;
 
   drupal_add_js(drupal_get_path('module', 'views_infinite_scroll') . '/jquery.infinitescroll.js');
   $js ="$(document).ready(function(){
-    $('div.view-content').infinitescroll({
+    $('" . $target . "').infinitescroll({
       navSelector  : '.infinite-scroll',            
       nextSelector : 'li.pager-next a', 
       loadingImg      : '" . drupal_get_path('module', 'views_infinite_scroll') . "/loading.gif',
-      loadingText     : '<em>Loading next page...</em>',
-      donetext        : '<em>You\'ve reached the last page</em>',
+      loadingText     : '<em>" . addslashes($loadingtext) . "</em>',
+      donetext        : '<em>" . addslashes($donetext) . "</em>',
       debug        : false,  
-      itemSelector : 'div.view-content div.views-row',
+      itemSelector : '" . $itemselector . "',
     });
   });";
   drupal_add_js($js,'inline');
+//  krumo(get_defined_vars());
   
-  // Calculate various markers within this pager piece:
-  // Middle is used to "center" pages around the current page.
-  $pager_middle = ceil($quantity / 2);
+
   // current is the page we are currently paged to
   $pager_current = $pager_page_array[$element] + 1;
   // max is the maximum page number
@@ -53,12 +61,12 @@ function theme_views_infinite_scroll_pager($tags = array(), $limit = 10, $elemen
   // End of marker calculations.
 
 
-  $li_previous = theme('pager_previous', (isset($tags[1]) ? $tags[1] : t('‹‹')), $limit, $element, 1, $parameters);
+  $li_previous = theme('pager_previous', (isset($tags[1]) ? $tags[1] : t('‹‹')), $limit, $element, 1, array());
   if (empty($li_previous)) {
     $li_previous = "&nbsp;";
   }
 
-  $li_next = theme('pager_next', (isset($tags[3]) ? $tags[3] : t('››')), $limit, $element, 1, $parameters);
+  $li_next = theme('pager_next', (isset($tags[3]) ? $tags[3] : t('››')), $limit, $element, 1, array());
   if (empty($li_next)) {
     $li_next = "&nbsp;";
   }
